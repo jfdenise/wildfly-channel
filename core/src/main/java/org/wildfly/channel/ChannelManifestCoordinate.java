@@ -46,33 +46,25 @@ public class ChannelManifestCoordinate extends ChannelMetadataCoordinate {
     }
 
     @JsonCreator
-    public static ChannelManifestCoordinate create(@JsonProperty(value = "url") String url, @JsonProperty(value = "gav") String gav) throws MalformedURLException {
+    public static ChannelManifestCoordinate create(@JsonProperty(value = "url") String url, @JsonProperty(value = "maven") MavenCoordinate gav) throws MalformedURLException {
         if (gav != null) {
-            final String[] parsedGav = gav.split(":");
-            if (parsedGav.length < 2 || parsedGav.length > 3) {
-                throw new IllegalArgumentException("Illegal GAV expression: " + gav);
-            }
-            if (parsedGav.length == 3) {
-                return new ChannelManifestCoordinate(parsedGav[0], parsedGav[1], parsedGav[2]);
+            if (gav.getVersion() == null || gav.getVersion().isEmpty()) {
+                return new ChannelManifestCoordinate(gav.getGroupId(), gav.getArtifactId());
             } else {
-                return new ChannelManifestCoordinate(parsedGav[0], parsedGav[1]);
+                return new ChannelManifestCoordinate(gav.getGroupId(), gav.getArtifactId(), gav.getVersion());
             }
         } else {
             return new ChannelManifestCoordinate(new URL(url));
         }
     }
 
-    @JsonProperty(value = "gav")
+    @JsonProperty(value = "maven")
     @JsonInclude(NON_NULL)
-    public String getGav() {
+    public MavenCoordinate getMaven() {
         if (isEmpty(getGroupId()) || isEmpty(getArtifactId())) {
             return null;
         }
-        if (isEmpty(getVersion())) {
-            return getGroupId() + ":" + getArtifactId();
-        } else {
-            return getGroupId() + ":" + getArtifactId() + ":" + getVersion();
-        }
+        return new MavenCoordinate(getGroupId(), getArtifactId(), getVersion());
     }
 
     private boolean isEmpty(String text) {

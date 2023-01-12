@@ -1,7 +1,10 @@
 schemaVersion: "2.0.0"
 name: My Required Channel
 manifest:
-  gav: "test.channels:required-manifest:1.0.0"
+  maven:
+    groupId: "test.channels"
+    artifactId: "required-manifest"
+    version: "1.0.0"
 repositories:
   - id: test
     url: test-repository

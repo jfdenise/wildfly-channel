@@ -193,7 +193,10 @@ public class ChannelWithRequirementsTestCase {
                 "    artifactId: required-channel\n" +
                 "    version: 2.0.0.Final\n" +
                 "manifest:\n" +
-                "  gav: org.channels:base-manifest:1.0.0\n" +
+                "  maven:\n" +
+                "    groupId: org.channels\n" +
+                "    artifactId: base-manifest\n" +
+                "    version: 1.0.0\n" +
                 "repositories:\n" +
                 "- id: test\n" +
                 "  url: test-repository");
@@ -372,7 +375,10 @@ public class ChannelWithRequirementsTestCase {
                 "    artifactId: 2nd-level-requiring-channel\n" +
                 "    version: 2.0.0.Final\n" +
                 "manifest:\n" +
-                "  gav: org.channels:base-manifest:1.0.0\n" +
+                "  maven:\n" +
+                "    groupId: org.channels\n" +
+                "    artifactId: base-manifest\n" +
+                "    version: 1.0.0\n" +
                 "repositories:\n" +
                 "  - id: test\n" +
                 "    url: test");
@@ -546,7 +552,9 @@ public class ChannelWithRequirementsTestCase {
         mockManifest(resolver, manifestFile.toUri().toURL(), gav);
     }
 
-    private void mockManifest(MavenVersionsResolver resolver, URL manifestUrl, String gav) throws IOException {
+    private void mockManifest(MavenVersionsResolver resolver, URL manifestUrl, String gavString) throws IOException {
+        final String[] splitGav = gavString.split(":");
+        final MavenCoordinate gav = new MavenCoordinate(splitGav[0], splitGav[1], splitGav.length == 3 ? splitGav[2] : null);
         when(resolver.resolveChannelMetadata(eq(List.of(ChannelManifestCoordinate.create(null, gav)))))
                 .thenReturn(List.of(manifestUrl));
     }

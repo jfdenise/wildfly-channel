@@ -10,4 +10,6 @@ repositories:
 - id: test
   url: test-repository
 manifest:
-  gav: org.test:test-manifest
+  maven:
+    groupId: org.test
+    artifactId: test-manifest

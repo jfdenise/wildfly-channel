@@ -8,7 +8,9 @@ vendor:
   support: community
 foo: not an known property
 manifest:
-  gav: test.channels:channel
+  maven:
+    groupId: test.channels
+    artifactId: channel
   bar: not a known property
 repositories:
   - id: test
