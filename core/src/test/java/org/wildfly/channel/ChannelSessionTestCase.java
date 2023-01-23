@@ -45,6 +45,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.mockito.invocation.InvocationOnMock;
@@ -55,6 +56,12 @@ public class ChannelSessionTestCase {
 
     @TempDir
     private Path tempDir;
+    private static File emptyFile;
+
+    @BeforeAll
+    static void setup() throws IOException {
+        emptyFile = File.createTempFile("ChannelWithRequirementsTestCase", ".jar");
+    }
 
     @Test
     public void testFindLatestMavenArtifactVersion() throws Exception {
@@ -431,7 +438,7 @@ public class ChannelSessionTestCase {
 
         MavenVersionsResolver.Factory factory = mock(MavenVersionsResolver.Factory.class);
         MavenVersionsResolver resolver = mock(MavenVersionsResolver.class);
-        File resolvedArtifactFile = mock(File.class);
+        File resolvedArtifactFile = emptyFile;
 
         final List<Channel> channels = mockChannel(resolver, tempDir, Channel.NoStreamStrategy.ORIGINAL, manifest);
 
@@ -456,7 +463,7 @@ public class ChannelSessionTestCase {
 
         MavenVersionsResolver.Factory factory = mock(MavenVersionsResolver.Factory.class);
         MavenVersionsResolver resolver = mock(MavenVersionsResolver.class);
-        File resolvedArtifactFile = mock(File.class);
+        File resolvedArtifactFile = emptyFile;
 
         final List<Channel> channels = mockChannel(resolver, tempDir, Channel.NoStreamStrategy.ORIGINAL, manifest);
 
@@ -482,7 +489,7 @@ public class ChannelSessionTestCase {
 
         MavenVersionsResolver.Factory factory = mock(MavenVersionsResolver.Factory.class);
         MavenVersionsResolver resolver = mock(MavenVersionsResolver.class);
-        File resolvedArtifactFile = mock(File.class);
+        File resolvedArtifactFile = emptyFile;
 
         final List<Channel> channels = mockChannel(resolver, tempDir, Channel.NoStreamStrategy.LATEST, manifest);
 
@@ -553,7 +560,7 @@ public class ChannelSessionTestCase {
 
         MavenVersionsResolver.Factory factory = mock(MavenVersionsResolver.Factory.class);
         MavenVersionsResolver resolver = mock(MavenVersionsResolver.class);
-        File resolvedArtifactFile = mock(File.class);
+        File resolvedArtifactFile = emptyFile;
 
         final List<Channel> channels = mockChannel(resolver, tempDir, Channel.NoStreamStrategy.MAVEN_RELEASE, manifest);
 
@@ -578,7 +585,7 @@ public class ChannelSessionTestCase {
 
         MavenVersionsResolver.Factory factory = mock(MavenVersionsResolver.Factory.class);
         MavenVersionsResolver resolver = mock(MavenVersionsResolver.class);
-        File resolvedArtifactFile = mock(File.class);
+        File resolvedArtifactFile = emptyFile;
 
         final List<Channel> channels = mockChannel(resolver, tempDir, Channel.NoStreamStrategy.MAVEN_LATEST, manifest);
 
@@ -603,7 +610,7 @@ public class ChannelSessionTestCase {
 
         MavenVersionsResolver.Factory factory = mock(MavenVersionsResolver.Factory.class);
         MavenVersionsResolver resolver = mock(MavenVersionsResolver.class);
-        File resolvedArtifactFile = mock(File.class);
+        File resolvedArtifactFile = emptyFile;
 
         final List<Channel> channels = mockChannel(resolver, tempDir, Channel.NoStreamStrategy.NONE, manifest);
 
@@ -628,7 +635,7 @@ public class ChannelSessionTestCase {
 
         MavenVersionsResolver.Factory factory = mock(MavenVersionsResolver.Factory.class);
         MavenVersionsResolver resolver = mock(MavenVersionsResolver.class);
-        File resolvedArtifactFile = mock(File.class);
+        File resolvedArtifactFile = emptyFile;
 
         when(factory.create(any())).thenReturn(resolver);
         when(resolver.resolveArtifact(eq("org.foo"), eq("bar"), eq(null), eq(null), eq("1.0.0.Final"))).thenReturn(resolvedArtifactFile);
